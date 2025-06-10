@@ -8,6 +8,7 @@ public class SpringBootDeepDiveApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SpringBootDeepDiveApplication.class, args);
+        System.out.println("Just started");
     }
 
 }
