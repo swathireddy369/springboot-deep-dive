@@ -5,3 +5,4 @@
 # Maven setup
 # local git
 # Linked to remote
+# push and pull from remote
