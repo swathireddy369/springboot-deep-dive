@@ -8,6 +8,7 @@ class SpringBootDeepDiveApplicationTests {
 
     @Test
     void contextLoads() {
+        System.out.println("test executed successfully");
     }
 
 }
