@@ -1,4 +1,4 @@
-package com.springboot.example.springbootdeepdive.ControllerRESTAnnotations;
+package com.springboot.example.springbootdeepdive.controllerRESTAnnotations;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

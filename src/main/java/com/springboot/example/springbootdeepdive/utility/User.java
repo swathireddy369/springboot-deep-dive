@@ -1,9 +1,7 @@
-package com.springboot.example.springbootdeepdive;
+package com.springboot.example.springbootdeepdive.utility;
 
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 
 @Lazy
 public class User {

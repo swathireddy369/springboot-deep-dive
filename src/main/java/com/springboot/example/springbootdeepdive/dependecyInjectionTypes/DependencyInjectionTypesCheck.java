@@ -1,4 +1,4 @@
-package com.springboot.example.springbootdeepdive.DependecyInjectionTypes;
+package com.springboot.example.springbootdeepdive.dependecyInjectionTypes;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;

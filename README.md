@@ -98,3 +98,10 @@ Dependency injection helps us to achieve Dependency inversion principle
 
 Reflection: is a program to examine and modify itself while running
 
+
+Scopes:
+SingleTon: one object for rntire IOC no matter and eagerly
+Prototype: multiple objects creates for each use and lazy
+in progress
+
+
