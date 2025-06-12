@@ -1,11 +1,15 @@
-package com.springboot.example.springbootdeepdive;
+package com.springboot.example.springbootdeepdive.ControllerRESTAnnotations;
 
+import com.springboot.example.springbootdeepdive.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class FirstController {
+    @Autowired
+    User userObj;
     @RequestMapping(value = "/api",method = RequestMethod.GET)
     @ResponseBody
     public String getUserDetails() {
@@ -28,16 +32,16 @@ public class FirstController {
     @RequestMapping(path="/api/requestBody",method=RequestMethod.POST)
     @ResponseBody
     public String requestCheck(@RequestBody User user){
-        User u = new User();
-        u.setName(user.name);
-        System.out.println("requestBody called"+u.getName() );
-        return "user with request check "+u.getName();
+
+        userObj.setName(user.name);
+        System.out.println("requestBody called"+userObj.getName() );
+        return "user with request check "+userObj.getName();
     }
     @RequestMapping(path="/api/responseEntityCheck",method=RequestMethod.POST)
     @ResponseBody
     public ResponseEntity checkResponseBody(@RequestBody User user){
-        User uObj = new User();
-        uObj.setName(user.name);
-        return ResponseEntity.status(200).body(uObj.name);
+
+        userObj.setName(user.name);
+        return ResponseEntity.status(200).body(userObj.name);
     }
 }

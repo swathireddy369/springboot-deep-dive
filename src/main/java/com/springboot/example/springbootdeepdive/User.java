@@ -1,8 +1,29 @@
 package com.springboot.example.springbootdeepdive;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
+
+@Lazy
 public class User {
-    String name;
-    String password;
+  public String name;
+   public  String password;
+
+        public User(){
+        System.out.println("User created");
+    }
+    public User(String name,String password){
+        this.name=name;
+        this.password=password;
+        System.out.println("User created with args "+name+" "+password);
+    }
+    @PostConstruct
+    public String postBeanCreationCheck(){
+        System.out.println("postBeanCreationCheck");
+          return "PostConstruct";
+    }
+
     public String getPassword() {
         return password;
     }

@@ -76,3 +76,23 @@ Request(client) -> controller -> service(business logic) ->repository ->DBMS
  6)ResponseBody
 #downloaded postman
  i have tested all these annotations with simple examples
+
+
+### Week-1-Day-3 ###
+@Component
+@Configuration
+@Bean(method)(paramterised construtor)
+@Autowired(dependency injection)
+@Lazy(only initilized when needed unlike eagerness)
+@PostConstruct
+@PreDestroy
+
+->applicationcontextloaded -> bean created -> dependencyinjectedintobeanconatiner -> postcreation -> bean ussage-> preDestroy ->Destroy
+
+
+# Dependency Injection & Dependency Inversion 
+Dependency injection helps us to achieve Dependency inversion principle
+1)Field Dependency Injection
+2)Setter Injection
+3)constructor Injection
+
