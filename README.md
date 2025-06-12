@@ -74,4 +74,5 @@ Request(client) -> controller -> service(business logic) ->repository ->DBMS
  4)PathVariable
  5)RequestBody
  6)ResponseBody
-
+#downloaded postman
+ i have tested all these annotations with simple examples
