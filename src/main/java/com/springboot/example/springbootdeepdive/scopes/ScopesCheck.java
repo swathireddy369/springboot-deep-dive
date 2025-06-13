@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 //@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON) // 1 for entire IOC
-@Scope("singletone")
+@Scope("application")
 public class ScopesCheck {
     @Autowired
     Student student;
     @Autowired
     Employee employee;
     public ScopesCheck(){
-        System.out.println("ScopesCheck initialized "+this.hashCode());
+        System.out.println("-----------------ScopesCheck initialized------------ "+this.hashCode());
     }
     @PostConstruct
     public void init(){

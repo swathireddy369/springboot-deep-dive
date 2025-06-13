@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope(ConfigurableBeanFactory.SCOPE_SINGLETON)
+@Scope("application")
 public class Employee {
     public  Employee(){
         System.out.println("Employee initialized");
