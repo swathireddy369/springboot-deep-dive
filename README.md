@@ -121,37 +121,75 @@ one point got to know that in app properties should not put quotes and semicolon
 
 # @ConditionalOnProperty
 
-having multiple unneccesary beans in container may slow the application startup and consume memory right so we can put conditions on bean creation
+having multiple unneccesary beans in container may slow down the application startup and consumes more memory right so to avoid that  we can put conditions on bean creation
 
-lets say in product based companies always migrate data from mysql to sql once migration is done we can stop creating bean wither one of them right that is one considerable case to use conditionalonproperty
+let's say in product based companies always migrate data from mysql to sql once migration is done we can stop creating bean with one of them right,
+that is one considerable case to use conditionalonproperty
+
+let's say if we have common codebase for two applications and wants to create bean for one app at a time 
 
 # @Profile
-Profiles : are different environments which we can run our application
-dev
-qa
-prod
-we have to tell our springboot application to run our application in particular environment as each environment willl contain different configurationa nd credentials
-url,port and other
-so that create
+Profiles : profiles are nothing but  different environments which we can run  our application like
+# dev
+# qa
+# prod
+we have to tell springboot to run our application in particular environment where each environment contains different
+configurations nd required credentials
+url,port and other like username,password urland port 
+so that we create
 # application-dev.properties
 # application-qa.properties
 # application-prod.properties
 and add specific config for them lets say username and password and mentions
-same default values in application.properties by default spring will choose application.properties if any profile is not active
 
-to set the profile active use # spring.profiles.active = dev,prod,qa
-1)this is the manual thing static thing which we put in app.properties
-to make it dynamic we have options like while running application mention inj command like 
+provide  default values for which we provided through profiles conf 
+in application.properties, by default spring will choose application.properties if no profile is active
+
+to set the profile active use 
+# spring.profiles.active = dev,prod,qa
+1)this is the manual/static thing which we put in app.properties
+to make it dynamic we have options like, while running application mention inj command like 
 # mvn spring-boot:run-Dspring-boot.profiles.active=prod
 2)or edit configuration in intellij and run
- if we put manual config active profile in app.properties and again if you mention in command while running it will override the command one
-will have more priority
+ if we put manual config active profile in app.properties and again if you mention in command while running it will override
+  the command one will have more priority
 # @Profile
-coming to the usage of @Profile it used to mention at the class level to specify wether the bean of the component should be created while mentioned profile is active
+coming to the usage of @Profile it used to mention at the class level to specify weather the bean of the component should be created or not  while mentioned profile is active
 # Profile("dev")
 # Profile("qa")
 # Profile("prod")
-if # spring.profiles.active= dev,prod but if you mention Profile("dev") you will get prod username an dpassword means bean is created becuase we mention dev in @Profile and is active but you overrie it with another active env sunch as prod
+if # spring.profiles.active= dev,prod but if you mention Profile("dev") you will get prod username and password means bean 
+is created because we mention dev in @Profile and is active but you override it with another active env such as prod
+
+AOP: Aspect oriented programming:
+ it is a module to maintian boilerplate code and maintaines reusability
+
+lets say some time we wants to writte some code before and after business logic it might be common for few methods right
+at that point of time instead of writting same code multiple times we use AOP for that
+
+it conatins pointcut and advice
+
+# pointcut : it defines a condition where the advice should execute.
+# advice : it tells that when and what should be execute 
+
+before ,after and around comes under when 
+what should execute "it might be some text or logic to execute"
+#  @Aspect (for AOP class)
+#  @pointcut
+
+we have few types in pointcut
+1)execute
+  -wildcard 
+   # *
+   # ..
+2)within
+  - @within
+3)args
+  - @args
+4)annotation
+5)target
+
+***************intersept does not work for static methods and the method whoch has been called in construtor***********
 
 
 
