@@ -242,8 +242,53 @@ propagation :
 # Mandatory : must run inside transaction if non exist throw exception
 # Never: opposite to mandatory: if transaction exist throw exception
 
- 
 
+### Week-2-Day-6 ###
+thread pool :
+it is a collection of htread are avialbelt o do tasks and once taks is completed they are avilable to take anothe thread in pool
+Async Annotation: 
+to run particular method in another thread
+wthout blocking main thread
+
+
+
+
+1)not providng any executor
+
+if if we want to create poolexecujtor
+we can create in two ways
+
+2)spring natoive : threadPoolTaskExecutor
+2)java :threadpoolexecutor
+
+# not providng any executor
+it checks for executor been if not found this case yes it does not found any so it uses simpleAsyncTaskExecutor
+usually spring check for taskexecutir bean if it does not find any then itr creates simpletaskexecutor it creates new tyhread every time
+min:8
+max: Integer.MAX_VALUE
+queue:INTEGER.MAX_VALUE
+
+now spring found this bean the it executes with this
+
+# threadPoolTaskExecutor : it is managed by spring itslef
+no need to metion namae
+have to mention min,max and queue size
+
+# threadpoolexecutor 
+it is java native
+so we have to provide name explicitly
+it does nit maintianed by spring
+have to mention min,max and queue size
+
+here over all 3 use cases
+
+here are possible usecases among all those springthreadpoolTaskExecutor is recommneded although to void confusion among all cases if ypu want to provide a executor which should be default 
+then there is a way 
+
+1) AsyncCofigurer (Interface)
+getAsyncExecutor (method)
+ 
+among springtaskpoolexecutor recommneded and for glooable level appconfigurer
 
 
 _
