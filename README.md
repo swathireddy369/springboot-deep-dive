@@ -195,6 +195,55 @@ we have few types in pointcut
 
 
 _
+### Week-2-Day-5 ###
+
+Transactional:
+#critical Section
+# inconsistancy
+#Acid prop
+#dependecny
+#driver 
+@Transactional
+
+Transaction Manager:
+Transaction manager interface (getTransaction.commit,rollback)
+
+extends
+
+PlatformTransactionManager(getTransaction.commit,rollback) 
+
+implements 
+AbstractPlatformTransactionManager(getTransaction.commit,rollback) default impmentation
+
+concrete classes
+1)DataSourceTransactionManager(JDBC TM)
+2)Hibernate
+3)JPA
+
+concrete classes
+//Distributed transactions
+4)JTA
+
+# Transaction Management
+can be done in two ways
+1)Declarative (through annotation)
+2)programatic (through manual coding)
+  - two wasy
+   1) complete code 
+   2) through templateTransaction  
+
+Transaction creation types and rules
+
+propagation : 
+# Required (default) :it is default one and if parent exist then use parent otherwise create one 
+# RequiredNew : if parent exist suspend parent -create new for child and finish it the resume parent
+# Supports : if parent exist use parent, otherwise run without creating
+# NonSupports : if parent exist suspend, don't create new one 
+# Mandatory : must run inside transaction if non exist throw exception
+# Never: opposite to mandatory: if transaction exist throw exception
+
+ 
+
 
 
 _
