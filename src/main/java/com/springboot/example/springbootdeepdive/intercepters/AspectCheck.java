@@ -1,4 +1,4 @@
-package com.springboot.example.springbootdeepdive.aop;
+package com.springboot.example.springbootdeepdive.intercepters;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;

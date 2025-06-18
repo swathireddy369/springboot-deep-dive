@@ -288,7 +288,55 @@ then there is a way
 1) AsyncCofigurer (Interface)
 getAsyncExecutor (method)
  
-among springtaskpoolexecutor recommneded and for glooable level appconfigurer
+among springtaskpoolexecutor recommneded and for global level appconfigurer
+
+### Week-2-Day-7 ###
+Async usage conditions and questions:
+#  while using async it should not be in the same class where caller is located
+if we put in same class proxy and interception will not work as expected
+and async menthod should be public 
+# async with transaction
+while using async with transaction there are 3 ways
+
+1) transaction and async order then if you rollback transaction it will not effect in async method 
+2) transaction & async  , transaction here propagation will not work as expected why because async thread will run seperately because it will not carry to next transaction
+3) so that order async,transaction would be best way of doing since once you create async and if you use transaction our transaction would be run in separate thread
+hence if you create some other transactions later it will carry in that itself
+
+# return type of future,callableFuture future deprecated and callable future cam into indursty from java 1.8
+
+# exception handling: 
+lets say if you have return type for async then nits fine as per the returned value we can handle in parent other wise if there is void type of async
+we should be handling excpetion in nasync itself
+if you want to customize execption then we can use simpleuncaughtexceptionhandler interface to customize 
+
+Handling intercepters: as we know intercepters run some code before and after our businesslgoic right
+
+we can handle them in two ways
+1)before controller 
+2)after controller
+# Before Controller:
+we have to implement HandlerIntercepter and override methods
+1)preHandler
+2)postHandler it executes when no exception 
+3)afterHandler it is a kind of finally in try catch
+
+and in appConfig implement WebMvcConfigurer
+
+#AfterController
+
+# custom annotations
+
+public @Interface MyCustomAnnotation {
+}
+
+@Target : when should be applicable (method,parameter,filed,class)
+@Retention: till where ity can be stored or referenced (source,class,runtime)
+
+
+
+
+
 
 
 _
