@@ -333,6 +333,26 @@ public @Interface MyCustomAnnotation {
 @Target : when should be applicable (method,parameter,filed,class)
 @Retention: till where ity can be stored or referenced (source,class,runtime)
 
+### Week-1-Day-8 ###
+
+streams
+intermediate -filter,map,sorted
+terminal - findFirst,reduce,collect
+lazy - intermediate
+eager - terminal
+
+method reference: System.out::println()
+
+comparable - compareTo
+comparator - comparing
+
+Res-DTO
+
+class: filter and intercepters
+HATEOAS: HYDER MEDIA AS THE ENGINE OF THE APPLICATION STATE
+
+
+
 
 
 

@@ -12,4 +12,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MyCustomAnnotation {
 //    int order() default 0;
+    int key() default 1;
+    String key1() default "iamintannoation";
 }

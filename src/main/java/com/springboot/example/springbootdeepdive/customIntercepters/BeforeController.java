@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BeforeController {
 
 
-    @MyCustomAnnotation
+    @MyCustomAnnotation(key=3,key1="Java Full Stack Developer")
     @GetMapping("/get")
     public String get(){
         System.out.println("get user details");

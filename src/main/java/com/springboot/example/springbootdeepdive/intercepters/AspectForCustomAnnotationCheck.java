@@ -12,10 +12,11 @@ public class AspectForCustomAnnotationCheck {
 
     //pointcut
     @Around("@annotation(com.springboot.example.springbootdeepdive.annotations.MyCustomAnnotation)")
-    public Object annotationCheck(ProceedingJoinPoint jointPoint)throws Throwable{
+    public Object annotationCheck(ProceedingJoinPoint jointPoint,MyCustomAnnotation myCustomAnnotation)throws Throwable{
+
         System.out.println("--------------------before proceed");
          Object result=jointPoint.proceed();
-        System.out.println("------------------after proceed");
+        System.out.println("------------------after proceed"+result);
         return result;
     }
 }
