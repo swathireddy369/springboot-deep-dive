@@ -333,7 +333,7 @@ public @Interface MyCustomAnnotation {
 @Target : when should be applicable (method,parameter,filed,class)
 @Retention: till where ity can be stored or referenced (source,class,runtime)
 
-### Week-1-Day-8 ###
+### Week-2-Day-8 ###
 
 streams
 intermediate -filter,map,sorted
@@ -351,7 +351,7 @@ Res-DTO
 class: filter and intercepters
 HATEOAS: HYDER MEDIA AS THE ENGINE OF THE APPLICATION STATE
 
-### Week-1-Day-9 ###
+### Week-2-Day-9 ###
  Response entity is a wrapper used to send complete http response to client from conteoller
  (wraps body,status and header)
 normally we send response in springboot simply by usinmg return 
@@ -381,6 +381,30 @@ status types:
 404 - not found (api or method wrong)
 
 500 - internal server  error
+
+### Week-2-Day-10 ###
+
+# server.servlet.context-path = /api/v1 (it adds prefix to all routes in our application not for specific controller
+)
+Exception handler
+
+we have 3 exceptionHandler resolvers
+
+1)exceptionHandlerExceptionResolver
+ - controller advice (global)
+ - exceptionHandler   
+2)responseStatusExceptionResolver
+3)defaultHandlerExceptionResolver
+
+any exception occures it follows the order like first it goes to exceptionHanlderExceptionResolver
+if the exception has been handled by thisnresolver then it goes to defaultAttribute(final one)
+else it goes to responsestatusExceptionResolver here if it is handled by this resolver okay it goes to defaultattribute(final)
+otherwise it goes to defaultHandlerExceptionResolver
+
+since while handling if we return responseEntitiy then fine it's gong to return from there itself otherwise let say
+if we return string or Httpresponse then again it goes to defaultAttribute and there it sets status and message which w eset in Httpresponse 
+
+Lets see example for excpetionHanlding:
 
 
 
