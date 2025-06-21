@@ -406,6 +406,12 @@ if we return string or Httpresponse then again it goes to defaultAttribute and t
 
 Lets see example for excpetionHanlding:
 
+@ControllerAdvice: it is used to handle global exception
+@exceptionHandler: used to handle specific exceptions
+@responseStatus: used to annotate exceptions with http status
+responseStatusException: used to throw inline exception with http status
+Responseentity used to send complete response
+
 
 
 
