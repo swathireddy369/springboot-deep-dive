@@ -351,6 +351,38 @@ Res-DTO
 class: filter and intercepters
 HATEOAS: HYDER MEDIA AS THE ENGINE OF THE APPLICATION STATE
 
+### Week-1-Day-9 ###
+ Response entity is a wrapper used to send complete http response to client from conteoller
+ (wraps body,status and header)
+normally we send response in springboot simply by usinmg return 
+@Responsebody - tells spring to serialize(converts into json) the response into http response
+where as in controller we should mention @ResponseBody otherwise it should be treating response as view
+ so if we want to send status,headers and body we use ResponseEntity< here w emnetion body type either string int or object>
+# build() (typically for status only responses)
+we use build in response entity since sometimes we don;t need to send any data to client at that case we use .build() at the end after appending status and headers
+means no body is going to append
+
+status types:
+1XX - info - just signal
+2XX - success - evertyhing is fine
+3XX - redirect - go somewhere else
+4XX - client mistake - client error
+5Xx - server mistake - server error
+
+100 - 100 continue
+
+200 - success - put,get,delete
+201 - created - post
+204 - no content - delete
+
+400 - bad request - /id (id mismatch)
+401 - unauthorized - no logged in
+403 - forbidden  - authorized not no permission
+404 - not found (api or method wrong)
+
+500 - internal server  error
+
+
 
 
 
