@@ -412,6 +412,144 @@ Lets see example for excpetionHanlding:
 responseStatusException: used to throw inline exception with http status
 Responseentity used to send complete response
 
+# JDBC:
+
+Application Logic - ORM framework(JPA(interface),Hibernate(implemenation) options: eclipseLink,openJPA) - JDBC (interface) - specific driver implementation
+ as per db - database
+JPA : it is interface it allow us to connect from our service to db as it's a interface it provides a methods to implemente
+Hibernate: it provides implemenation for methods which are provided by JPA (we have other implemetation optins as well as mentioned above)
+
+JDBC - interface it provides methods to connect with db and execute queries
+specific driver for JDBC implementation - 
+h2- connector
+mysql- jdbc drvier
+postgresql - jdbc drvier
+
+as per the database which we are using.
+
+
+if we have to use jdbc without spring following steps to follow:
+have to add jdbc in dependencies 
+and driver dependency as well
+# step 1: have to load driver class class.forName();
+# step 2: get connection to database
+# step 3: make a conncetion
+# step 4: prepare query and execute query
+#step 5: have to close the db and prepared query otherwise we may have memory leakage
+
+# so using springboot we avoid all these boiler plate code
+first we have to mentions jdbc and driver in application.properties 
+
+# where this connection will help us to create conection and creates connection pool with default size as well
+so we have mutiple datasources as we are using hikara datasource
+
+# we can also create bean for this connection in app config by mentioning bean
+
+so now jdbc with springboot 
+we use jdbc template to execute query
+
+althought, it abstarct the connection creation
+preapring query
+closing connection and query
+# while using plain jdbc it gives us sql exceptions if anythings occurs wrong whereas in jdbc with spring it give granual errors (specific meaningfull errors)
+
+jdbc methods to run queries:
+
+update with varargs
+update with preparedStatement
+query rowmapping
+queryForList
+queryForObject
+queryForObject
+
+JDBC (Low Level) ─┬─ Plain JDBC → More Code (Manual connection/close/error)
+
+└─ Spring JDBC (JdbcTemplate)
+├─ Auto connection via DataSource
+├─ Auto cleanup (close)
+├─ Exception Translation
+└─ Easy methods to run queries
+├─ update()
+├─ query()
+├─ queryForObject()
+└─ queryForList()
+usually we get the result from query as a list of rows right
+spring does not know how to convert that into java object right so that's where useRowMapper class of rowmapper interface comesinto piture to tell spring how to covert rouw into javaobjects it has been abstarcted
+
+# JPA:
+Steps to follow to enable JPA in our springboot app
+
+1) add JPA dependecny (comes with hidernate as well)
+2) add application.properties for db configuartion
+3) create entities (object represenation of tables)
+4) repository which implement JPA repository (repo should be created for each entity since we do some manual methods like findbyusernameandid )
+
+# To see the results we also can enale console which is diff from diff DB's
+
+Architecture of JPA: 
+
+persistance unit ( application properties) --> (1:1) EntityManagerFactory(object) --> (1:Many) --> EntityManagerObject 
+-->(1:1) peristance context (it holds entities which has been managed by entity manager ) --> JDBC -->Database
+
+# Persistance unit:
+ - unit is a logical seperation of enties which sahres common configration
+ - application properties for each app
+ - if we want to collabarte with multiple db's we will be creating multiple peristance units 
+ - although for one P.U we can use app.prop where as if you want to create multiple you have to use appconfig @Configuration by providing beans for multiple persistance units
+ - have to provde transaction type default one for spring is Resource-local if we create for multiple dbs using config we have to mention manually
+# Entity manager Factory:
+ - entity manager factory is created as per numer of persiatnce units 
+ - its 1:1 mapping 
+ - need to privde transaction type like Resopuce-local,dialect,datasource and component scan where as creating one persitance unit in app.prop does not require all these extarc manual things it has been gtaken care by spring itself
+ - Transaction manager asscocited with entity manager factory 
+ - h2-1T.M MySql - 1TM
+# Tramnsaction Manager
+ two types as per trabsaction manager hierachy diagrma seen befroe
+
+if one db single transactyion manager 
+if multiple then JTA(Associated with DB) will be handle JTA (2phase commit) distributes trabscations
+all these above steps wilol be done while starting up the applications
+
+# Entity manager and peristance context
+ - Entity manager factory can create multiple entity managers which handles the entities 
+ - entity managwer provides the insert,update and deelte operation for db
+ - like while we call these methods by using JPAreposity underthehood spring uses entoyymanager.persist and other 
+ - now we can dout like why can't we diretly call entitty manager.methods to do operations on db instead of JPA reposity 
+ - yes we can but some restritions
+ - bacasue JPA repo provides some default methods tp get data from db like find,findall and it suippoer pagination,sorting where in entitymanger does not allow those and 
+   one important aspect is owhile using E.M we have to provide transatiuon for each and evry method like insert,update and elete if not it throws exceptions 
+  but in JPA repo that is noit thye case
+ - once we create E.M object it means in hiderbate session created once session ends we have to create again
+ - means if we use entity manager it behind calls hibernate,dilect,jdbc and interact witg db but all these are abstarcted
+# peristance context
+ - itr is 1:1 with E.M 
+  - once E.M created then it peristanbce context is created it holds the entities which has been managed by E.M and persist to db
+  - till it persisting to db it hold in its own contxt from cointex we can remove,update and flus to db
+  - whenever you flush then only it will be uypdate in DB otherwise it wont means 
+  - from context we cahneg status of entoty to diff state removed to manged vice vesa
+simple worlds it manages the compole lyfe cycle of Entoty
+
+# Entity
+ - entity is transaction bounded nbut nit for all like read does not need transactions
+ - but in JPA it provides by default where E.M does not provide by default we have to provide otheriwse it does wpork as mentioned before
+
+E.M holds E1,E2,E3 where as P.C hold placeholder for thos Entity and it intecrt woth DB (hibernate,dilect(jpql,hql - sql),jdbc) - db
+dilect transforms java persistance query languiage or hibernate query languagfe into sql to udnerstand jdbc 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
