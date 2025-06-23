@@ -1,6 +1,6 @@
 package com.springboot.example.springbootdeepdive.controllerRESTAnnotations;
 
-import com.springboot.example.springbootdeepdive.utility.User;
+import com.springboot.example.springbootdeepdive.utilities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

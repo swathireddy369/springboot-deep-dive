@@ -1,6 +1,6 @@
 package com.springboot.example.springbootdeepdive.beans;
 
-import com.springboot.example.springbootdeepdive.utility.User;
+import com.springboot.example.springbootdeepdive.utilities.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

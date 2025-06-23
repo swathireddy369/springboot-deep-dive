@@ -597,14 +597,117 @@ Imagine your app is a factory:
 - One neat trick: @Transactional on methods ensures automatic transaction wrapping if you ever move beyond JPA repo.
 
 
+### Week-2-Day-11 ###
 
+JPA setup : created userEntity
 
+Add DB config in app.properties
 
--
+controller 
+service
+repo -implements JPA repository
 
+//show sql -true
 
+i am trying to return a complete entity but i got issue because 
+hibernate returns proxy of entoty not orginal one bacause it lazy loads the entity
+so this proxy conatins lazyinitilizer so jackson doesnot know how to hanlde those proxy objects
++-------------------------------------+
+|         Spring Boot / JPA           |
++-------------------------------------+
+|
+v
++-------------------------------+
+|    Controller (REST API)      |
++-------------------------------+
+|
+v
++-------------------------------+
+|       Service Layer           |
++-------------------------------+
+|                    |
+v                    v
+[Entity ↔ DTO] Mapping   [Business Logic]
+|
+v
++-----------------------------+
+|   Entity (JPA/Hibernate)    |
++-----------------------------+
+|
+v
+Hibernate returns a **Proxy** 🕵️‍♀️
+|
+┌──────────────────────────────┐
+|  Lazy Loading Proxy Issues:  |
+|  - Infinite Recursion        |
+|  - Serialization Fails       |
+|  - Jackson doesn't know      |
+|    how to handle proxy       |
+└──────────────────────────────┘
+|
+🛑 Exposing Entity to API = Bad
+|
+v
+✅ Use DTOs to break proxy and:
+- Serialize cleanly
+- Expose only safe fields
+- Avoid LazyInitializationException
+- Keep controller clean
+- Avoid tight coupling
+  https://chatgpt.com/share/68588cb3-2e94-8010-a3fa-d7445501fc63
+here one more observation:
+- Hibernate: select ee1_0.id,ee1_0.age,ee1_0.name from employee_entity ee1_0 where ee1_0.id=?
+  Hibernate: insert into employee_entity (age,name,id) values (?,?,?)
+- i put save user first but i got select query in log since it check before inserting wether already id record exist or not 
+- if not it saving new record otherwise its updating 
+- that is why i got frist sleect query (****************)
 
+- made id as auto generaed @GeneratedValue(strategy=Generation.IDENTITY)
 
+- i observed that first level caching working here 
+   - if we hit same query agin then it just giving it from percistanceContext instead fo hitting query to db
+   - so this cache is created for each HTTP request at dispacther servlet level
+   - once http reuqest comes in cahce will be created with single tranascation 
+   - as we know in one transaction data can be shared among them 
+   - when session or entity manager created (while http reuest comes in) transaction will be created 
+   - once transction done cache will be gone
+# Second Level Caching 
+- this is another tyoe of caching where in first level caching for each http reuqest they have one cache 
+- but second level cache is next to that which is shared among diff http request by having lock and realsing lock while writting on dasta
+- to enable this in our applicstion we need dependecies whereas in first level caching it;s automatic
+- need 3 dependencies
+- ecache
+- <!-- Ehcache 3 -->
+<dependency>
+    <groupId>org.ehcache</groupId>
+    <artifactId>ehcache</artifactId>
+</dependency>
+
+<!-- Hibernate JCache integration -->
+<dependency>
+    <groupId>org.hibernate.orm</groupId>
+    <artifactId>hibernate-jcache</artifactId>
+</dependency>
+
+<!-- JSR 107 (JCache API) -->
+<dependency>
+    <groupId>javax.cache</groupId>
+    <artifactId>cache-api</artifactId>
+</dependency>
+
+- after adding dependencies have to add in application.properties
+- and have to add ehcache config file for each entity seperately in our resources folder
+- have to provide cache annoation at each entity
+- we have mutiple concurenacy staregies 
+- Read_ONLY : shared lock will aquires cache and multiple request can access cahe data while shared lock acquired
+- READ_WRITE : shared and exclucsive both can happen as per the operation which we are doing while reading shared lock will acquire where as write exclusive lock no other querues can be processed till it unclick and it marks cache as invalidated 
+  if transaction commits then db updated and cache also updated removes invalidated flag
+rollback: it puts invalidated flag itslef ,if any query comes then it goes to db to get data and then it updated cache then it removes invalidated flag
+- NONRESCTRICT_READ_WRITE: here no lock for read 
+although write lock like above case but once commit happens it does not remove invalidate flag and does not have updated data 
+next any other query gets data from db and then it updates cache and removes invalidated flag
+- Transactional: 
+ 
 
 
 

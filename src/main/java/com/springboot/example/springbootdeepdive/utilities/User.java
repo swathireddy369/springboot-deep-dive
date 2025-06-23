@@ -1,4 +1,4 @@
-package com.springboot.example.springbootdeepdive.utility;
+package com.springboot.example.springbootdeepdive.utilities;
 
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Lazy;

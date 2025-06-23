@@ -49,31 +49,31 @@ public class AppConfig implements WebMvcConfigurer, AsyncConfigurer {
         return executor;
     }
 
-    @Bean
-    public DataSource dataSource(){
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.h2.Driver");
-        dataSource.setUrl("jdbc:h2:mem:testdb");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("");
-        return dataSource;
-    }
-    @Bean
-    public TransactionManager userTransactionManagerWithDataSource(DataSource dataSource){
-        return new DataSourceTransactionManager(dataSource);
-    }
-    @Bean
-    public PlatformTransactionManager userTransactionManagerWithJDBC(DataSource dataSource){
-        return new JdbcTransactionManager(dataSource);
-    }
 //    @Bean
-//    public PlatformTransactionManager userTransactionManagerWithHibernate(DataSource dataSource){
-//        return new JpaTransactionManager(dataSource);
+//    public DataSource dataSource(){
+//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+//        dataSource.setDriverClassName("org.h2.Driver");
+//        dataSource.setUrl("jdbc:h2:mem:testdb");
+//        dataSource.setUsername("sa");
+//        dataSource.setPassword("");
+//        return dataSource;
 //    }
-
-
-    //use template and pass manager to it
-    public TransactionTemplate userTransactionTemplateWithTemplate(PlatformTransactionManager transactionManager){
-        return new TransactionTemplate(transactionManager);
-    }
+//    @Bean
+//    public TransactionManager userTransactionManagerWithDataSource(DataSource dataSource){
+//        return new DataSourceTransactionManager(dataSource);
+//    }
+//    @Bean
+//    public PlatformTransactionManager userTransactionManagerWithJDBC(DataSource dataSource){
+//        return new JdbcTransactionManager(dataSource);
+//    }
+////    @Bean
+////    public PlatformTransactionManager userTransactionManagerWithHibernate(DataSource dataSource){
+////        return new JpaTransactionManager(dataSource);
+////    }
+//
+//
+//    //use template and pass manager to it
+//    public TransactionTemplate userTransactionTemplateWithTemplate(PlatformTransactionManager transactionManager){
+//        return new TransactionTemplate(transactionManager);
+//    }
 }
