@@ -9,4 +9,5 @@ import org.springframework.stereotype.Component;
 public class EmployeeDTO {
     String name;
     int age;
+    int id;
 }

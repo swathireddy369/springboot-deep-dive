@@ -11,12 +11,14 @@ public class EmployeeMapper {
         EmployeeEntity employeeEntity=new EmployeeEntity();
         employeeEntity.setName(employeeDTO.getName());
         employeeEntity.setAge(employeeDTO.getAge());
+        employeeEntity.setId(employeeDTO.getId());
         return employeeEntity;
     }
     public EmployeeDTO toDTO(EmployeeEntity employeeEntity){
         EmployeeDTO employeeDTO=new EmployeeDTO();
         employeeDTO.setName(employeeEntity.getName());
         employeeDTO.setAge(employeeEntity.getAge());
+        employeeDTO.setId(employeeEntity.getId());
         return employeeDTO;
     }
 }
