@@ -709,7 +709,7 @@ although write lock like above case but once commit happens it does not remove i
 next any other query gets data from db and then it updates cache and removes invalidated flag
 - Transactional: 
 
-### Week-1-Day-12 ###
+### Week-2-Day-12 ###
 
 findById: returns Optional where you're not sure weather the entity present or not(safeCheck)
 getById: returns proxy entity first(lazy loads) returns real entity when required(needed when you;re sure that the entity exist)
@@ -727,6 +727,24 @@ after update the cache makes it as invalidated so we have to go to db and fecth 
 https://chatgpt.com/share/68594d30-1620-8010-a4f1-35a6c0c6b195)
 
 read -write after getbyid should hit db as per my knowledge in progress
+
+
+### Week-3-Day-13 ###
+# annotations to map dto to table 
+# it is ddl-auto mapping it tells hidernate to map with db tables
+# to mark column unique 
+# usually we use @Id to make column as primaryu and it does not accept nulls
+# along with that if we want to make some other columns unique we can make those columns unique by uisng
+1) id and idclass approach
+2) embeddable and embedded approach
+3) and generated value type for primary key where strategy type as identity and sequence
+4) sequence is more recommended way it allocates space for group sequnce means in one db hit it's able to get bunle of sequnce id's 
+5) to avoid multiple db calls and cache it for use
+6) there is another @table way of creating id's but it is not recommedned
+### Week-3-Day-13 ###
+
+
+
 
 
 
