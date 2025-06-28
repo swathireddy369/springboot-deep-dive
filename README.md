@@ -742,7 +742,8 @@ read -write after getbyid should hit db as per my knowledge in progress
 5) to avoid multiple db calls and cache it for use
 6) there is another @table way of creating id's but it is not recommedned
 ### Week-3-Day-13 ###
-
+OneToOne
+OneToMany
 
 
 

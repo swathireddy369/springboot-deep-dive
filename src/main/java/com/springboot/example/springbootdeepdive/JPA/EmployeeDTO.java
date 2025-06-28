@@ -10,4 +10,8 @@ public class EmployeeDTO {
     String name;
     int age;
     int id;
+    String email;
+    String company;
+    String role;
+    EmployeeAddressDTO employeeAddress;
 }

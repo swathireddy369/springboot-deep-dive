@@ -1,6 +1,7 @@
 package com.springboot.example.springbootdeepdive.JPA;
 import java.util.*;
 
+import com.springboot.example.springbootdeepdive.utilities.AddressMapper;
 import com.springboot.example.springbootdeepdive.utilities.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,15 +15,26 @@ public class EmployeeService {
     EmployeeRepository employeeRepository;
     @Autowired
     EmployeeMapper employeeMapper;
+    @Autowired
+    AddressMapper addressMapper;
+    @Autowired
+    EmployeeAddressRepository employeeAddressRepository;
     public ResponseEntity<?> saveUser(EmployeeDTO employeeDTO) {
-        EmployeeEntity employeeEntity=employeeMapper.toEntity(employeeDTO);
-        employeeRepository.save(employeeEntity);
+        Employee employee =employeeMapper.toEntity(employeeDTO);
+        EmployeeAddress employeeAddress=addressMapper.toEntity(employeeDTO);
+        employee.setEmployeeAddress(employeeAddress);
+        employeeRepository.save(employee);
          return new ResponseEntity<>("Employee created successfully",HttpStatus.OK);
     }
     public ResponseEntity<?> getEmpById(Integer id) {
-     Optional<EmployeeEntity> emp=employeeRepository.findById(id);
+     Optional<Employee> emp=employeeRepository.findById(id);
      if(emp.isPresent()){
-        EmployeeDTO resultSet=employeeMapper.toDTO(emp.get());
+         Optional<EmployeeAddress> empAddress=employeeAddressRepository.findById(emp.get().id);
+         EmployeeDTO resultSet=employeeMapper.toDTO(emp.get());
+         if(empAddress.isPresent()){
+             EmployeeAddressDTO employeeAddressDTO= addressMapper.toDTO(empAddress.get());
+              resultSet.setEmployeeAddress(employeeAddressDTO);
+         }
         return new ResponseEntity<>(resultSet,HttpStatus.OK);
      }
      return new ResponseEntity<>("Employee Not Found With Given Id",HttpStatus.NOT_FOUND);
@@ -39,9 +51,9 @@ public class EmployeeService {
 
     public ResponseEntity<?> updateEmployeeById(EmployeeDTO employeeDTO, int id) {
         //get employee by id
-        Optional<EmployeeEntity> emp=employeeRepository.findById(id);
+        Optional<Employee> emp=employeeRepository.findById(id);
         if(emp.isPresent()){
-            EmployeeEntity empEntityObj=emp.get();
+            Employee empEntityObj=emp.get();
             empEntityObj.setName(employeeDTO.getName());
             empEntityObj.setAge(employeeDTO.getAge());
             employeeRepository.save(empEntityObj);

@@ -1,24 +1,31 @@
 package com.springboot.example.springbootdeepdive.utilities;
 
 import com.springboot.example.springbootdeepdive.JPA.EmployeeDTO;
-import com.springboot.example.springbootdeepdive.JPA.EmployeeEntity;
+import com.springboot.example.springbootdeepdive.JPA.Employee;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EmployeeMapper {
 
-    public EmployeeEntity toEntity(EmployeeDTO employeeDTO){
-        EmployeeEntity employeeEntity=new EmployeeEntity();
-        employeeEntity.setName(employeeDTO.getName());
-        employeeEntity.setAge(employeeDTO.getAge());
-        employeeEntity.setId(employeeDTO.getId());
-        return employeeEntity;
+    public Employee toEntity(EmployeeDTO employeeDTO){
+        Employee employee =new Employee();
+        employee.setName(employeeDTO.getName());
+        employee.setAge(employeeDTO.getAge());
+        employee.setId(employeeDTO.getId());
+        employee.setEmail(employeeDTO.getEmail());
+        employee.setRole(employeeDTO.getRole());
+        employee.setCompany(employeeDTO.getCompany());
+
+        return employee;
     }
-    public EmployeeDTO toDTO(EmployeeEntity employeeEntity){
+    public EmployeeDTO toDTO(Employee employee){
         EmployeeDTO employeeDTO=new EmployeeDTO();
-        employeeDTO.setName(employeeEntity.getName());
-        employeeDTO.setAge(employeeEntity.getAge());
-        employeeDTO.setId(employeeEntity.getId());
+        employeeDTO.setName(employee.getName());
+        employeeDTO.setAge(employee.getAge());
+        employeeDTO.setId(employee.getId());
+        employeeDTO.setEmail(employee.getEmail());
+        employeeDTO.setRole(employee.getRole());
+        employeeDTO.setCompany(employee.getCompany());
         return employeeDTO;
     }
 }
