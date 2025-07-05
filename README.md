@@ -741,22 +741,100 @@ read -write after getbyid should hit db as per my knowledge in progress
 4) sequence is more recommended way it allocates space for group sequnce means in one db hit it's able to get bunle of sequnce id's 
 5) to avoid multiple db calls and cache it for use
 6) there is another @table way of creating id's but it is not recommedned
-### Week-3-Day-13 ###
+### Week-3-Day-14 ###
 OneToOne
 OneToMany
+### Week-1-Day-15 ###
+ # Derived queries: it does not requires any query spring data write queries for this as per method name which we provided in repositoty
+ # when we have small condistions and we can use his and saves lot of time
+ # clean code
+ # findBySalaryGreaterThan(double Salary)
+ # SELECT *
+   From Employee
+   WHERE salary > ? 
+
+# JPQL: it's similar to sql but it does operations on java object entities instead of db tables
+# it's scalable beacuse it can be scalbel for different databases instead of changing code when we sweitch to diff dbs'
+# @Query(SELECT e  FROM Employee e WHERE e.salary >  :salary)
+ - findSalaryGreaterThan(@Param("salary") double salary)
+ - wehn we multile comndition and not possible with derived quesries this is the best opion
+# N+1 problem while we have onetomany and many tomany if we have many parents and each parent has mutiple child snit hit one query to do get all parentsa nd each 
+seperate query for n parents to get chuld of each iut becomns N+1 so if we put eager as well it does not work so we can solve that by using join fecth
+telling that fecth chld data corresponding to parnt right away
+Fix 1:
+# @Query(SELECT e from EMPLOYEE e WHERE e.salary > Salary)
+LIST<Employee> findEmployeeBySalary(@Param("Salary") double salary)
+Fix 2:batch size insted of quering all child s at a time we split them into batches to get batter performance of query
+
+@Modifying :
+usually it works for query since our query annotain by defaukt treast as sleect if we try to writee delete update it throws error to allow query to use for remove and del;ete we mention modifying annotations
+
+@NamaedQuery :
+simple fpr reuse of query
+where if there is a case where we have to use same query for mutuole times to avoid repatetion of writting we simple put name for it while qwritting full query once and wuse that name further
 
 
+# derived queries:
+
+    FindByDepartment(String department)
+    FindBySalaryGreaterThan(double salary)
+    FindByStudentsAddress(String Address)
+    
+# jpql  queries
+
+  - @Query(SELECT e FROM Employee e WHERE e.Salary > :salary)
+     FindSalaries(@Param("salary") double salary)
+  - @Query(Select s from STUDENT s WHERE s.address  = :address)
+    FindStudents(@Param("address") String address)
+  - @query(Slect r from RESULTS r WHERE r.achivder = :name)
+  - FindgoalAchivers(@Param("name") String name)
+# jpql with joins and fecth
+   - @Query(SELECT e from Employee e join e.department d WHERE d.department= : dept)
+   - @Query(Select e from Employee e JOIN e.departmnet d WHERE d.department =:dept)
+   - @Query(select e from Employee e e.department d WHERE e.department = : dept)
+     findEmployeeDepartment(@Param("dept") String dept)
+ - put FETECH after join to avoid N+1 problem
+- @Modifying
+- @Transactional
+-  @Query(UPDATE e from Employee e join e.department d WHERE d.department= : dept)
+- Derived Query → no code → Spring guesses query
+
+JPQL → write your own object queries
+
+N+1 → too many small queries → fix with join fetch or batch
+
+@Modifying → update/delete
+
+Named Query → reusable JPQL by name
+
+Spring Security:
+
+CSRf
+XSS
+SQL
+CORS
+ These all are attacks to get rid of our resocues from this attacks we have to provide secity
+
+tomcateserver - filtercahin ( security fikter cahin) - servlet dispacther-interceptor - controller
+
+Securoty filtet cahin:
+
+filter (usernamepassword,basic,jwt,oauth) - autheticate obj - authenticationmanager(providermanager)-
+authenticationprovider (basic,oauth,jwt) - userdetails(in memory,db) - aithticnateobj (full) - save in secutoty context
+match .ant matchers roles chack has beeen to give pariticulae resource authorization
 
 
-
-
-
-
-
-
-
-
-
+- here when we add spring security in our dependencies after starting server it creates usernamwe and passowrd 
+- first time creates we bypass authentication by mentioneidng in configuartion
+- and remainng all req we have toi authoruize 
+- so that we get userdetsils obj first and thenncaompare existing password with incoming password by decrypting the assword the way which we used while encoding by reading eonder fromte in userdetails password
+- it's like 
+authentication methods:
+- form based-sessionid
+- inmemory db 
+- sessionid can be hijacked
+- authentication filter
+base  
 
 
 
