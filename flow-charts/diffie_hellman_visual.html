@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diffie-Hellman Key Exchange</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step {
+            margin: 30px 0;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-left: 6px solid #3498db;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        
+        .step h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        
+        .parties {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .party {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 200px;
+            margin: 10px;
+            box-shadow: 0 8px 20px rgba(116, 185, 255, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .party:hover {
+            transform: scale(1.05);
+        }
+        
+        .party h3 {
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .arrow {
+            font-size: 2em;
+            color: #e74c3c;
+            margin: 0 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .public-info {
+            background: linear-gradient(135deg, #55efc4, #00b894);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 8px 20px rgba(85, 239, 196, 0.3);
+        }
+        
+        .private-info {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            box-shadow: 0 5px 15px rgba(253, 121, 168, 0.3);
+        }
+        
+        .shared-secret {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(253, 203, 110, 0.3);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { box-shadow: 0 8px 20px rgba(253, 203, 110, 0.3); }
+            to { box-shadow: 0 8px 30px rgba(253, 203, 110, 0.6); }
+        }
+        
+        .formula {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            border: 2px solid #dee2e6;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 1.1em;
+        }
+        
+        .danger-zone {
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 8px 20px rgba(250, 177, 160, 0.3);
+        }
+        
+        .key-point {
+            background: #fff3cd;
+            border: 2px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-style: italic;
+        }
+        
+        .interactive-demo {
+            background: #f1f2f6;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+        }
+        
+        .values {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .value-box {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            text-align: center;
+        }
+        
+        .highlight {
+            background: #fff3cd !important;
+            border-color: #ffeaa7 !important;
+            animation: highlight 1s ease-in-out;
+        }
+        
+        @keyframes highlight {
+            0% { background: #fff3cd; }
+            50% { background: #ffeaa7; }
+            100% { background: #fff3cd; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Diffie-Hellman Key Exchange</h1>
+        
+        <div class="step">
+            <h2>Step 1: Public Parameters</h2>
+            <div class="public-info">
+                <h3>🌐 Publicly Known Information</h3>
+                <p><strong>Prime (p):</strong> 23</p>
+                <p><strong>Generator (g):</strong> 5</p>
+                <p>Everyone knows these values - they're not secret!</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <h2>Step 2: Private Keys</h2>
+            <div class="parties">
+                <div class="party">
+                    <h3>👨‍💻 Alice</h3>
+                    <div class="private-info">
+                        <strong>Private Key (a):</strong> <span id="alice-private">6</span>
+                    </div>
+                    <p>Alice keeps this secret!</p>
+                </div>
+                
+                <div class="party">
+                    <h3>👩‍💻 Bob</h3>
+                    <div class="private-info">
+                        <strong>Private Key (b):</strong> <span id="bob-private">15</span>
+                    </div>
+                    <p>Bob keeps this secret!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <h2>Step 3: Public Key Generation</h2>
+            <div class="parties">
+                <div class="party">
+                    <h3>👨‍💻 Alice</h3>
+                    <div class="formula">A = g^a mod p</div>
+                    <div class="formula">A = 5^<span id="alice-calc-private">6</span> mod 23 = <span id="alice-public">8</span></div>
+                    <p>Alice sends A = <span id="alice-public-display">8</span> to Bob</p>
+                </div>
+                
+                <div class="arrow">→</div>
+                
+                <div class="party">
+                    <h3>👩‍💻 Bob</h3>
+                    <div class="formula">B = g^b mod p</div>
+                    <div class="formula">B = 5^<span id="bob-calc-private">15</span> mod 23 = <span id="bob-public">19</span></div>
+                    <p>Bob sends B = <span id="bob-public-display">19</span> to Alice</p>
+                </div>
+            </div>
+            
+            <div class="danger-zone">
+                <h3>⚠️ Intercepted by Eve (Eavesdropper)</h3>
+                <p>Eve sees: p=23, g=5, A=<span id="eve-sees-a">8</span>, B=<span id="eve-sees-b">19</span></p>
+                <p>But she doesn't know Alice's or Bob's private keys!</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <h2>Step 4: Shared Secret Calculation</h2>
+            <div class="parties">
+                <div class="party">
+                    <h3>👨‍💻 Alice</h3>
+                    <div class="formula">s = B^a mod p</div>
+                    <div class="formula">s = <span id="alice-calc-b">19</span>^<span id="alice-calc-a">6</span> mod 23 = <span id="alice-secret">2</span></div>
+                </div>
+                
+                <div class="party">
+                    <h3>👩‍💻 Bob</h3>
+                    <div class="formula">s = A^b mod p</div>
+                    <div class="formula">s = <span id="bob-calc-a">8</span>^<span id="bob-calc-b">15</span> mod 23 = <span id="bob-secret">2</span></div>
+                </div>
+            </div>
+            
+            <div class="shared-secret">
+                🎉 Shared Secret: <span id="shared-secret">2</span>
+                <br>Both Alice and Bob now have the same secret key!
+            </div>
+        </div>
+        
+        <div class="key-point">
+            <strong>🔑 Key Insight:</strong> The magic is in the math! Even though Alice and Bob performed different calculations, they arrived at the same result. This is because (g^a)^b = (g^b)^a = g^(ab) in modular arithmetic.
+        </div>
+        
+        <div class="step">
+            <h2>Why This Works (The Math)</h2>
+            <div class="formula">
+                Alice computes: (g^b)^a = g^(ba) mod p<br>
+                Bob computes: (g^a)^b = g^(ab) mod p<br>
+                Since ab = ba, they get the same result!
+            </div>
+        </div>
+        
+        <div class="interactive-demo">
+            <h3>🎮 Try Different Values</h3>
+            <button onclick="generateNewKeys()">Generate New Keys</button>
+            <button onclick="showStep()">Step Through Process</button>
+            <div id="demo-output"></div>
+        </div>
+        
+        <div class="step">
+            <h2>🛡️ Security & Real-World Usage</h2>
+            <div class="values">
+                <div class="value-box">
+                    <h4>In Practice</h4>
+                    <p>Real implementations use 2048+ bit primes, not small numbers like 23!</p>
+                </div>
+                <div class="value-box">
+                    <h4>HTTPS/TLS</h4>
+                    <p>Your browser uses this to establish secure connections with websites</p>
+                </div>
+                <div class="value-box">
+                    <h4>Perfect Forward Secrecy</h4>
+                    <p>Even if long-term keys are compromised, past communications remain secure</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function modPow(base, exp, mod) {
+            let result = 1;
+            base = base % mod;
+            while (exp > 0) {
+                if (exp % 2 === 1) {
+                    result = (result * base) % mod;
+                }
+                exp = Math.floor(exp / 2);
+                base = (base * base) % mod;
+            }
+            return result;
+        }
+        
+        function updateDisplay(alicePrivate, bobPrivate, p = 23, g = 5) {
+            // Calculate public keys
+            const alicePublic = modPow(g, alicePrivate, p);
+            const bobPublic = modPow(g, bobPrivate, p);
+            
+            // Calculate shared secrets
+            const aliceSecret = modPow(bobPublic, alicePrivate, p);
+            const bobSecret = modPow(alicePublic, bobPrivate, p);
+            
+            // Update display
+            document.getElementById('alice-private').textContent = alicePrivate;
+            document.getElementById('bob-private').textContent = bobPrivate;
+            document.getElementById('alice-calc-private').textContent = alicePrivate;
+            document.getElementById('bob-calc-private').textContent = bobPrivate;
+            document.getElementById('alice-public').textContent = alicePublic;
+            document.getElementById('bob-public').textContent = bobPublic;
+            document.getElementById('alice-public-display').textContent = alicePublic;
+            document.getElementById('bob-public-display').textContent = bobPublic;
+            document.getElementById('eve-sees-a').textContent = alicePublic;
+            document.getElementById('eve-sees-b').textContent = bobPublic;
+            document.getElementById('alice-calc-b').textContent = bobPublic;
+            document.getElementById('alice-calc-a').textContent = alicePrivate;
+            document.getElementById('bob-calc-a').textContent = alicePublic;
+            document.getElementById('bob-calc-b').textContent = bobPrivate;
+            document.getElementById('alice-secret').textContent = aliceSecret;
+            document.getElementById('bob-secret').textContent = bobSecret;
+            document.getElementById('shared-secret').textContent = aliceSecret;
+        }
+        
+        function generateNewKeys() {
+            const alicePrivate = Math.floor(Math.random() * 20) + 2;
+            const bobPrivate = Math.floor(Math.random() * 20) + 2;
+            updateDisplay(alicePrivate, bobPrivate);
+            
+            // Add highlight animation
+            document.querySelectorAll('.party, .shared-secret').forEach(el => {
+                el.classList.add('highlight');
+                setTimeout(() => el.classList.remove('highlight'), 1500);
+            });
+        }
+        
+        let stepIndex = 0;
+        function showStep() {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, index) => {
+                step.style.opacity = index <= stepIndex ? '1' : '0.3';
+            });
+            stepIndex = (stepIndex + 1) % steps.length;
+        }
+        
+        // Initialize with default values
+        updateDisplay(6, 15);
+    </script>
+</body>
+</html>

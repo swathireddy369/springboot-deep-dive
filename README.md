@@ -836,6 +836,25 @@ authentication methods:
 - authentication filter
 base  
 
+### Week-1-Day-16 ###
+jwt
+oauth
+cryptography sync async 
+
+Github action CI/Cd:
+configured git hub action
+- name modifed
+- run : mvn clean install
+- commit - master
+ 
+IJ:
+ git - pull 
+- it creates a github folder in our project
+- github - workflows - maven.yml
+- 
+
+
+
 
 
 _

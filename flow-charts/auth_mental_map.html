@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authentication Mental Map</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #38bdf8;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+        }
+        
+        .mental-map {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 20px;
+            position: relative;
+        }
+        
+        .top-concept {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #38bdf8;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
+        }
+        
+        .top-concept h2 {
+            color: #38bdf8;
+            margin-bottom: 10px;
+            font-size: 1.8em;
+        }
+        
+        .concept {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #64748b;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .concept:hover {
+            transform: translateY(-5px);
+            border-color: #f59e0b;
+            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.2);
+        }
+        
+        .concept h2 {
+            color: #fbbf24;
+            margin-bottom: 15px;
+            font-size: 1.6em;
+            text-align: center;
+        }
+        
+        .session-id {
+            border-color: #ef4444;
+        }
+        
+        .session-id h2 {
+            color: #ef4444;
+        }
+        
+        .jwt {
+            border-color: #22c55e;
+        }
+        
+        .jwt h2 {
+            color: #22c55e;
+        }
+        
+        .feature {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .feature h3 {
+            color: #3b82f6;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        
+        .pros {
+            background: rgba(34, 197, 94, 0.1);
+            border-left-color: #22c55e;
+        }
+        
+        .pros h3 {
+            color: #22c55e;
+        }
+        
+        .cons {
+            background: rgba(239, 68, 68, 0.1);
+            border-left-color: #ef4444;
+        }
+        
+        .cons h3 {
+            color: #ef4444;
+        }
+        
+        .security-section {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #7c2d12 0%, #92400e 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #f59e0b;
+            margin-top: 20px;
+        }
+        
+        .security-section h2 {
+            color: #f59e0b;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .security-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #f59e0b;
+        }
+        
+        .security-item h3 {
+            color: #fbbf24;
+            margin-bottom: 10px;
+        }
+        
+        .threat {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        
+        .mitigation {
+            color: #22c55e;
+            font-weight: bold;
+        }
+        
+        .best-practices {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #581c87 0%, #7c3aed 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #a855f7;
+            margin-top: 20px;
+        }
+        
+        .best-practices h2 {
+            color: #a855f7;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        
+        .practices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .practice-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #a855f7;
+        }
+        
+        .practice-item h3 {
+            color: #c084fc;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+        
+        .flow-arrow {
+            position: absolute;
+            color: #38bdf8;
+            font-size: 2em;
+            z-index: 10;
+        }
+        
+        .arrow-1 {
+            top: 140px;
+            left: 35%;
+        }
+        
+        .arrow-2 {
+            top: 140px;
+            right: 35%;
+        }
+        
+        @media (max-width: 768px) {
+            .mental-map {
+                grid-template-columns: 1fr;
+            }
+            
+            .flow-arrow {
+                display: none;
+            }
+            
+            .security-grid,
+            .practices-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Authentication State Storage Mental Map</h1>
+        
+        <div class="mental-map">
+            <!-- Top concept -->
+            <div class="top-concept">
+                <h2>Authentication State Storage</h2>
+                <p>How do we keep track of who's logged in?</p>
+            </div>
+            
+            <!-- Flow arrows -->
+            <div class="flow-arrow arrow-1">↙</div>
+            <div class="flow-arrow arrow-2">↘</div>
+            
+            <!-- Session ID -->
+            <div class="concept session-id">
+                <h2>🏷️ Session ID</h2>
+                
+                <div class="feature">
+                    <h3>What it is:</h3>
+                    <p>Server keeps lookup table: <code>sessionId → user info</code><br>
+                    Client just sends tiny opaque ID</p>
+                </div>
+                
+                <div class="feature pros">
+                    <h3>✅ Pros:</h3>
+                    <p>• Easy to <strong>revoke</strong> (delete server entry)<br>
+                    • Small client payload<br>
+                    • Server has full control</p>
+                </div>
+                
+                <div class="feature cons">
+                    <h3>❌ Cons:</h3>
+                    <p>• Heavy at scale (memory/DB growth)<br>
+                    • Requires server-side storage<br>
+                    • Stateful architecture</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>Storage:</h3>
+                    <p>Server holds "session" table<br>
+                    Client sends ID in cookie/header</p>
+                </div>
+            </div>
+            
+            <!-- JWT -->
+            <div class="concept jwt">
+                <h2>🎟️ JWT (JSON Web Token)</h2>
+                
+                <div class="feature">
+                    <h3>What it is:</h3>
+                    <p>Token <strong>contains</strong> payload (userID, roles, expiry) + signature<br>
+                    Self-contained: carries user data</p>
+                </div>
+                
+                <div class="feature pros">
+                    <h3>✅ Pros:</h3>
+                    <p>• <strong>Stateless</strong>: no server store needed<br>
+                    • Self-verifiable (check signature & expiry)<br>
+                    • Scales horizontally</p>
+                </div>
+                
+                <div class="feature cons">
+                    <h3>❌ Cons:</h3>
+                    <p>• No easy revocation<br>
+                    • Larger payloads → bigger headers<br>
+                    • Token theft risks</p>
+                </div>
+                
+                <div class="feature">
+                    <h3>Storage:</h3>
+                    <p>Client holds token in cookie/localStorage<br>
+                    Server validates signature</p>
+                </div>
+            </div>
+            
+            <!-- Security Challenges -->
+            <div class="security-section">
+                <h2>🚨 JWT Security Challenges</h2>
+                
+                <div class="security-grid">
+                    <div class="security-item">
+                        <h3>1. Token Theft</h3>
+                        <p><span class="threat">Threat:</span> If stolen, attacker can call APIs until expiry</p>
+                        <p><span class="mitigation">Mitigation:</span> HTTPS only + HttpOnly, Secure cookies</p>
+                    </div>
+                    
+                    <div class="security-item">
+                        <h3>2. No Easy Revocation</h3>
+                        <p><span class="threat">Threat:</span> Can't "delete" JWT on server easily</p>
+                        <p><span class="mitigation">Mitigation:</span> Short-lived tokens (15 min) + refresh tokens + JTI blacklist</p>
+                    </div>
+                    
+                    <div class="security-item">
+                        <h3>3. Large Payloads</h3>
+                        <p><span class="threat">Threat:</span> Bloated HTTP requests, header size limits</p>
+                        <p><span class="mitigation">Mitigation:</span> Keep payload minimal (just userID, roles)</p>
+                    </div>
+                    
+                    <div class="security-item">
+                        <h3>4. Algorithm Confusion</h3>
+                        <p><span class="threat">Threat:</span> Clients might force "none" algorithm</p>
+                        <p><span class="mitigation">Mitigation:</span> Hard-code accepted alg (HS256/RS256) on server</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Best Practices -->
+            <div class="best-practices">
+                <h2>🛡️ Best Practices</h2>
+                
+                <div class="practices-grid">
+                    <div class="practice-item">
+                        <h3>Transport Security</h3>
+                        <p>Always use <strong>HTTPS</strong> for token transport</p>
+                    </div>
+                    
+                    <div class="practice-item">
+                        <h3>Cookie Security</h3>
+                        <p><strong>HttpOnly, Secure</strong> cookies for XSS protection</p>
+                    </div>
+                    
+                    <div class="practice-item">
+                        <h3>Token Rotation</h3>
+                        <p><strong>Short-lived access tokens</strong> + <strong>rotating refresh tokens</strong></p>
+                    </div>
+                    
+                    <div class="practice-item">
+                        <h3>Refresh Flow</h3>
+                        <p>1. Client uses refresh token for new JWT<br>2. Server invalidates used refresh token</p>
+                    </div>
+                    
+                    <div class="practice-item">
+                        <h3>Claim Validation</h3>
+                        <p><strong>Audience (aud) & Issuer (iss)</strong> checks</p>
+                    </div>
+                    
+                    <div class="practice-item">
+                        <h3>Emergency Revocation</h3>
+                        <p><strong>JTI (JWT ID) + token blacklist</strong> for critical situations</p>
+                    </div>
+                    
+                    <div class="practice-item">
+                        <h3>Payload Minimization</h3>
+                        <p>Keep payload <strong>lean</strong> - no sensitive data in JWT</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

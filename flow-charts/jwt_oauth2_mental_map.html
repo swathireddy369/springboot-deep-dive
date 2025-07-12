@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT & OAuth2 Mental Map</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #00ff88;
+            margin-bottom: 30px;
+            font-size: 2.8em;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid #00ff88;
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.2);
+        }
+        
+        .section h2 {
+            color: #00ff88;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+        
+        .jwt-section {
+            border-color: #ff6b6b;
+        }
+        
+        .jwt-section h2 {
+            color: #ff6b6b;
+        }
+        
+        .oauth2-section {
+            border-color: #4ecdc4;
+        }
+        
+        .oauth2-section h2 {
+            color: #4ecdc4;
+        }
+        
+        .jwt-structure {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .jwt-part {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid #ff6b6b;
+            border-radius: 15px;
+            padding: 20px;
+            flex: 1;
+            margin: 5px;
+            min-width: 150px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .jwt-part:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .jwt-part h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+        
+        .memory-hook {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #ffd700;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .memory-hook h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+        
+        .story-section {
+            background: rgba(138, 43, 226, 0.1);
+            border: 2px solid #8a2be2;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .story-section h3 {
+            color: #8a2be2;
+            margin-bottom: 15px;
+        }
+        
+        .flow-diagram {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid #3498db;
+            box-shadow: 0 10px 30px rgba(52, 152, 219, 0.2);
+        }
+        
+        .flow-diagram h2 {
+            color: #3498db;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+        }
+        
+        .flows-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .flow {
+            flex: 1;
+            min-width: 400px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #3498db;
+        }
+        
+        .flow h3 {
+            color: #3498db;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .step {
+            background: rgba(52, 152, 219, 0.1);
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            position: relative;
+        }
+        
+        .step::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .jwt-flow {
+            counter-reset: step-counter;
+        }
+        
+        .oauth2-flow {
+            counter-reset: step-counter;
+            border-color: #4ecdc4;
+        }
+        
+        .oauth2-flow h3 {
+            color: #4ecdc4;
+        }
+        
+        .oauth2-flow .step {
+            background: rgba(78, 205, 196, 0.1);
+            border-left-color: #4ecdc4;
+        }
+        
+        .oauth2-flow .step::before {
+            background: #4ecdc4;
+        }
+        
+        .key-concepts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .concept-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid #666;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .concept-card:hover {
+            border-color: #00ff88;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2);
+        }
+        
+        .concept-card h3 {
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+        
+        .castle-story {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid #a855f7;
+            text-align: center;
+        }
+        
+        .castle-story h2 {
+            color: #a855f7;
+            margin-bottom: 20px;
+        }
+        
+        .castle-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .castle-step {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            border: 2px solid #a855f7;
+        }
+        
+        .castle-step h3 {
+            color: #c084fc;
+            margin-bottom: 10px;
+        }
+        
+        .emoji {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .flows-container {
+                flex-direction: column;
+            }
+            
+            .flow {
+                min-width: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .jwt-structure {
+                flex-direction: column;
+            }
+            
+            .castle-steps {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 JWT & OAuth2 Mental Map</h1>
+        
+        <div class="main-grid">
+            <!-- JWT Section -->
+            <div class="section jwt-section">
+                <h2>🎟️ JWT (JSON Web Token)</h2>
+                
+                <div class="jwt-structure">
+                    <div class="jwt-part">
+                        <h3>Header</h3>
+                        <p>Algorithm & Type</p>
+                        <code>{"alg": "HS256"}</code>
+                    </div>
+                    <div class="jwt-part">
+                        <h3>Payload</h3>
+                        <p>Claims & Data</p>
+                        <code>{"sub": "user123"}</code>
+                    </div>
+                    <div class="jwt-part">
+                        <h3>Signature</h3>
+                        <p>Security Hash</p>
+                        <code>HMACSHA256(...)</code>
+                    </div>
+                </div>
+                
+                <div class="memory-hook">
+                    <h3>📚 Memory Hook: JHS</h3>
+                    <p><strong>J</strong>SON header, <strong>H</strong>ex payload, <strong>S</strong>ignature</p>
+                </div>
+                
+                <div class="key-concepts">
+                    <div class="concept-card">
+                        <h3>Claims</h3>
+                        <p>• <strong>iss</strong> (issuer)<br>
+                        • <strong>sub</strong> (subject)<br>
+                        • <strong>aud</strong> (audience)<br>
+                        • <strong>exp</strong> (expiration)</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h3>Structure</h3>
+                        <p>header<strong>.</strong>payload<strong>.</strong>signature</p>
+                        <p>Base64URL encoded</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- OAuth2 Section -->
+            <div class="section oauth2-section">
+                <h2>🔐 OAuth2</h2>
+                
+                <div class="memory-hook">
+                    <h3>📚 Memory Hook: CATE</h3>
+                    <p><strong>C</strong>ode → <strong>A</strong>uth-server → <strong>T</strong>oken → <strong>E</strong>ndpoint call</p>
+                    <p><em>"Code to token, then APIs open"</em></p>
+                </div>
+                
+                <div class="key-concepts">
+                    <div class="concept-card">
+                        <h3>Grant Types</h3>
+                        <p>• Authorization Code<br>
+                        • Client Credentials<br>
+                        • Password<br>
+                        • Refresh Token</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h3>Key Players</h3>
+                        <p>• <strong>Client</strong> (your app)<br>
+                        • <strong>Auth Server</strong> (issues tokens)<br>
+                        • <strong>Resource Server</strong> (API)<br>
+                        • <strong>User</strong> (resource owner)</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h3>Scopes</h3>
+                        <p>Define access permissions</p>
+                        <p>Example: "read:profile write:posts"</p>
+                    </div>
+                    
+                    <div class="concept-card">
+                        <h3>Endpoints</h3>
+                        <p>• <strong>Authorization</strong> endpoint<br>
+                        • <strong>Token</strong> endpoint<br>
+                        • <strong>Resource</strong> endpoints</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Castle Story -->
+        <div class="castle-story">
+            <h2>🏰 The Castle Story (OAuth2 Flow)</h2>
+            <p><em>A vivid story to remember the OAuth2 Authorization Code flow</em></p>
+            
+            <div class="castle-steps">
+                <div class="castle-step">
+                    <div class="emoji">🚶‍♂️</div>
+                    <h3>You (Client)</h3>
+                    <p>Want to access the treasure (user's data)</p>
+                </div>
+                
+                <div class="castle-step">
+                    <div class="emoji">🏰</div>
+                    <h3>Castle (Auth Server)</h3>
+                    <p>Guards the treasure, issues magic scrolls</p>
+                </div>
+                
+                <div class="castle-step">
+                    <div class="emoji">📜</div>
+                    <h3>Magic Scroll (Auth Code)</h3>
+                    <p>Temporary permission slip</p>
+                </div>
+                
+                <div class="castle-step">
+                    <div class="emoji">💌</div>
+                    <h3>Sealed Letter (Access Token)</h3>
+                    <p>Official permission document</p>
+                </div>
+                
+                <div class="castle-step">
+                    <div class="emoji">🛡️</div>
+                    <h3>Guard Booth (Resource Server)</h3>
+                    <p>Checks your sealed letter before granting access</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Flow Diagrams -->
+        <div class="flow-diagram">
+            <h2>🔄 Side-by-Side Flows</h2>
+            
+            <div class="flows-container">
+                <!-- JWT Flow -->
+                <div class="flow jwt-flow">
+                    <h3>JWT Authentication Flow</h3>
+                    
+                    <div class="step">
+                        <strong>User Login</strong><br>
+                        Client sends credentials to auth server
+                    </div>
+                    
+                    <div class="step">
+                        <strong>JWT Creation</strong><br>
+                        Server creates JWT with user claims + signature
+                    </div>
+                    
+                    <div class="step">
+                        <strong>Token Return</strong><br>
+                        JWT sent back to client (cookie/localStorage)
+                    </div>
+                    
+                    <div class="step">
+                        <strong>API Calls</strong><br>
+                        Client includes JWT in Authorization header
+                    </div>
+                    
+                    <div class="step">
+                        <strong>Token Validation</strong><br>
+                        Server verifies signature + expiry, grants access
+                    </div>
+                </div>
+                
+                <!-- OAuth2 Flow -->
+                <div class="flow oauth2-flow">
+                    <h3>OAuth2 Authorization Code Flow</h3>
+                    
+                    <div class="step">
+                        <strong>Authorization Request</strong><br>
+                        Client redirects user to auth server with client_id & scopes
+                    </div>
+                    
+                    <div class="step">
+                        <strong>User Consent</strong><br>
+                        User logs in and approves permissions
+                    </div>
+                    
+                    <div class="step">
+                        <strong>Auth Code Return</strong><br>
+                        Auth server redirects back with authorization code
+                    </div>
+                    
+                    <div class="step">
+                        <strong>Token Exchange</strong><br>
+                        Client exchanges auth code + client_secret for access token
+                    </div>
+                    
+                    <div class="step">
+                        <strong>API Access</strong><br>
+                        Client uses access token to call protected APIs
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

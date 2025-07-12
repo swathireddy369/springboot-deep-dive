@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptography Mental Map</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #00d4ff;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+        }
+        
+        .mental-map {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 30px;
+            height: 80vh;
+            position: relative;
+        }
+        
+        .concept {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+            border-radius: 20px;
+            padding: 30px;
+            border: 2px solid #00d4ff;
+            position: relative;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+        }
+        
+        .concept:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+            border-color: #ff6b6b;
+        }
+        
+        .concept h2 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+        
+        .what-it-is {
+            background: rgba(255, 107, 107, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #ff6b6b;
+        }
+        
+        .what-it-is h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .example {
+            background: rgba(255, 214, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #ffd600;
+        }
+        
+        .example h3 {
+            color: #ffd600;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .pros-cons {
+            background: rgba(74, 222, 128, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #4ade80;
+        }
+        
+        .pros-cons h3 {
+            color: #4ade80;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        .why-matters {
+            background: rgba(168, 85, 247, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #a855f7;
+        }
+        
+        .why-matters h3 {
+            color: #a855f7;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        
+        /* Connection lines */
+        .connection {
+            position: absolute;
+            background: #00d4ff;
+            height: 2px;
+            z-index: 10;
+        }
+        
+        .connection::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: -4px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid #00d4ff;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+        }
+        
+        /* Specific connections */
+        .conn-1 {
+            top: 25%;
+            left: 47%;
+            width: 6%;
+            transform: rotate(45deg);
+        }
+        
+        .conn-2 {
+            top: 25%;
+            right: 47%;
+            width: 6%;
+            transform: rotate(-45deg);
+        }
+        
+        .conn-3 {
+            bottom: 25%;
+            left: 47%;
+            width: 6%;
+            transform: rotate(-45deg);
+        }
+        
+        .conn-4 {
+            bottom: 25%;
+            right: 47%;
+            width: 6%;
+            transform: rotate(45deg);
+        }
+        
+        .symmetric {
+            grid-area: 1 / 1;
+        }
+        
+        .asymmetric {
+            grid-area: 1 / 2;
+        }
+        
+        .aes {
+            grid-area: 2 / 1;
+        }
+        
+        .diffie-hellman {
+            grid-area: 2 / 2;
+        }
+        
+        .key-insight {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px solid #00d4ff;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            z-index: 20;
+            backdrop-filter: blur(10px);
+        }
+        
+        .key-insight h3 {
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 1024px) {
+            .mental-map {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, auto);
+                height: auto;
+            }
+            
+            .connection {
+                display: none;
+            }
+            
+            .key-insight {
+                position: static;
+                transform: none;
+                margin: 20px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧠 Cryptography Mental Map</h1>
+        
+        <div class="mental-map">
+            <!-- Connections -->
+            <div class="connection conn-1"></div>
+            <div class="connection conn-2"></div>
+            <div class="connection conn-3"></div>
+            <div class="connection conn-4"></div>
+            
+            <!-- Key Insight in Center -->
+            <div class="key-insight">
+                <h3>🔑 The Big Picture</h3>
+                <p>Asymmetric (DH) establishes trust<br>↓<br>Symmetric (AES) handles bulk data</p>
+            </div>
+            
+            <!-- 1. Symmetric Encryption -->
+            <div class="concept symmetric">
+                <h2>🔐 Symmetric Encryption</h2>
+                
+                <div class="what-it-is">
+                    <h3>What it is:</h3>
+                    <p>One shared secret key. I encrypt with it, you decrypt with the <em>same</em> key.</p>
+                </div>
+                
+                <div class="example">
+                    <h3>Example:</h3>
+                    <p>AES is the most popular symmetric cipher</p>
+                </div>
+                
+                <div class="pros-cons">
+                    <h3>Pros & Cons:</h3>
+                    <p><strong>✅ Fast & efficient</strong><br>
+                    <strong>❌ Challenge:</strong> safely sharing that secret key</p>
+                </div>
+            </div>
+            
+            <!-- 2. Asymmetric Encryption -->
+            <div class="concept asymmetric">
+                <h2>🔓 Asymmetric Encryption</h2>
+                
+                <div class="what-it-is">
+                    <h3>What it is:</h3>
+                    <p>Public-key crypto. I have a <em>public</em> key (anyone can see) and <em>private</em> key (only I know).</p>
+                </div>
+                
+                <div class="example">
+                    <h3>Example Uses:</h3>
+                    <p><strong>Digital signatures:</strong> Sign with private, verify with public<br>
+                    <strong>Key exchange:</strong> Agree on symmetric key without sending it</p>
+                </div>
+            </div>
+            
+            <!-- 3. AES -->
+            <div class="concept aes">
+                <h2>🛡️ AES</h2>
+                
+                <div class="what-it-is">
+                    <h3>What it is:</h3>
+                    <p>Advanced Encryption Standard. Symmetric cipher, encrypts fixed-size blocks with secret key (128, 192, or 256 bits).</p>
+                </div>
+                
+                <div class="why-matters">
+                    <h3>Why it matters:</h3>
+                    <p>Ubiquitous in web servers, databases, secure file storage. If you do HTTPS or store user data, AES is under the hood.</p>
+                </div>
+            </div>
+            
+            <!-- 4. Diffie-Hellman -->
+            <div class="concept diffie-hellman">
+                <h2>🤝 Diffie-Hellman</h2>
+                
+                <div class="what-it-is">
+                    <h3>What it is:</h3>
+                    <p>Key exchange method. Two parties agree on shared secret over insecure channel—without ever transmitting the key.</p>
+                </div>
+                
+                <div class="example">
+                    <h3>How it works:</h3>
+                    <p>1. Agree on public numbers<br>
+                    2. Each picks private number + does math<br>
+                    3. Swap results, do final math<br>
+                    4. Both arrive at same secret!</p>
+                </div>
+                
+                <div class="why-matters">
+                    <h3>Why it matters:</h3>
+                    <p>Underpins TLS/HTTPS handshake. How browsers and servers establish secure channels.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

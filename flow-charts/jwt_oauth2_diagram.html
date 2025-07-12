@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JWT vs OAuth2</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 1000px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+        
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+        }
+        
+        .jwt::before {
+            background: linear-gradient(90deg, #ff6b6b, #ff8e8e);
+        }
+        
+        .oauth2::before {
+            background: linear-gradient(90deg, #4ecdc4, #45b7b8);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+        
+        .description {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .token-visual {
+            background: #2c3e50;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 20px 0;
+            text-align: center;
+            word-break: break-all;
+        }
+        
+        .token-parts {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .token-part {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .header { background: #ff6b6b; }
+        .payload { background: #4ecdc4; }
+        .signature { background: #45b7b8; }
+        
+        .flow-steps {
+            background: #e8f5e8;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            background: #4ecdc4;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .relationship {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .relationship h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        .relationship p {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>JWT vs OAuth2</h1>
+        
+        <div class="comparison">
+            <div class="section jwt">
+                <h2>🎫 JWT (JSON Web Token)</h2>
+                <div class="description">
+                    A self-contained token format that you issue after login and then just check on every request—no server-side session needed.
+                </div>
+                
+                <div class="token-visual">
+                    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                </div>
+                
+                <div class="token-parts">
+                    <div class="token-part header">HEADER</div>
+                    <div class="token-part payload">PAYLOAD</div>
+                    <div class="token-part signature">SIGNATURE</div>
+                </div>
+                
+                <div class="highlight">
+                    <strong>What it is:</strong> The actual token format<br>
+                    <strong>Structure:</strong> header.payload.signature<br>
+                    <strong>Purpose:</strong> Carries user info & permissions
+                </div>
+            </div>
+            
+            <div class="section oauth2">
+                <h2>🔐 OAuth2</h2>
+                <div class="description">
+                    A set of standard steps ("flows") for getting and refreshing tokens (often JWTs) and defining what those tokens can do ("scopes").
+                </div>
+                
+                <div class="flow-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>User clicks "Login with Google"</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>Redirect to authorization server</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>User grants permission</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div>Receive authorization code</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">5</div>
+                        <div>Exchange code for access token</div>
+                    </div>
+                </div>
+                
+                <div class="highlight">
+                    <strong>What it is:</strong> The protocol/framework<br>
+                    <strong>Purpose:</strong> How to get, use & refresh tokens<br>
+                    <strong>Defines:</strong> Scopes, flows, permissions
+                </div>
+            </div>
+        </div>
+        
+        <div class="relationship">
+            <h3>🤝 How They Work Together</h3>
+            <p>
+                <strong>OAuth2</strong> is the protocol that defines <em>how</em> to obtain tokens securely.<br>
+                <strong>JWT</strong> is often the <em>format</em> of those tokens.<br><br>
+                Think of OAuth2 as the "vending machine process" and JWT as the "actual candy bar" you get at the end.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
