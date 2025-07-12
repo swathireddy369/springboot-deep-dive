@@ -851,9 +851,26 @@ IJ:
  git - pull 
 - it creates a github folder in our project
 - github - workflows - maven.yml
-- 
+- for evry push and pull 
+- github action will trigger and do the steps which are mentione din mvn.yml jobs 
+- as run command  : mvn clean install : it delete the target and 
+- compile the code and run test cases until we remove explicitly
+- build it and 
+- then create local copy for fyrther use 
 
-
+- create docker image:
+- 1_login to docker hub
+- 2_create docker image
+- 3_push docker image to docker hub
+- sign in docker hub
+- create repo(image name)
+- provide repo and image name in maven.yml docker config
+- creating finalName in pom.xml 
+- create docker file in maven project
+- comfigured docker in dockerfile
+- add secrets likem
+- docker usename and password ij github settings of repo
+- added secrets as username and passwor dof docekr in github repo settings 
 
 
 
