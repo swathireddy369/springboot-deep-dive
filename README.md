@@ -871,7 +871,7 @@ IJ:
 - add secrets likem
 - docker usename and password ij github settings of repo
 - added secrets as username and passwor dof docekr in github repo settings 
-
+- updated docker password
 
 
 _
