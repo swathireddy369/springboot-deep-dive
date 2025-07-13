@@ -872,6 +872,9 @@ IJ:
 - docker usename and password ij github settings of repo
 - added secrets as username and passwor dof docekr in github repo settings 
 - updated docker password
-
-
-_
+- i just installed docker desktop
+- then i will pull my docker image 
+- then check docker images docker images
+- run docker images
+_ i just opend the command promt and pull the docker image and check the avialbel docmker images
+- 
