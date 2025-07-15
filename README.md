@@ -879,3 +879,10 @@ IJ:
 _ i just opend the command promt and pull the docker image and check the avialbel docmker images
 - okay let me check
 - as i put openJDK caps in docker file its does nit install java in container and not working as expected need to resolve this issue
+
+AWS:
+
+Ec2
+s3
+Elastic BeanStalk
+Dynamo DB - Elastic BeanStalk 
